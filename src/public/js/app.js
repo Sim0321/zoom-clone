@@ -13,3 +13,7 @@ socket.addEventListener("message", (message) => {
 socket.addEventListener("close", () => {
   console.log("서버와 연결이 끊어졌어요");
 });
+
+setTimeout(() => {
+  socket.send("브라우저로부터 보내는 메세지에요");
+}, 10000);
