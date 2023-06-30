@@ -15,14 +15,17 @@ const handleListen = () => console.log(`Listening on http://localhost:3000`);
 const server = http.createServer(app); //http 서버
 const wss = new WebSocket.Server({ server }); //WebSocket 서버와 http서버 동시에
 
+const sockets = [];
+console.log(sockets);
+
 wss.on("connection", (socket) => {
-  // console.log(socket)
+  sockets.push(socket);
   console.log("브라우저와 연결됐어요");
   socket.on("close", () => console.log("브라우저로부터 연결이 끊겼어요."));
   socket.on("message", (message) => {
+    sockets.forEach((aSocket) => aSocket.send(message.toString("utf8")));
     console.log(message.toString("utf8"));
   });
-  socket.send("hello!!");
 });
 // socket은 연결된 브라우저 의미
 
