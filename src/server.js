@@ -15,11 +15,11 @@ const handleListen = () => console.log(`Listening on http://localhost:3000`);
 const server = http.createServer(app); //http 서버
 const wss = new WebSocket.Server({ server }); //WebSocket 서버와 http서버 동시에
 
-function handleConnection(socket) {
-  console.log(socket);
-}
-
-wss.on("connection", handleConnection);
+wss.on("connection", (socket) => {
+  // console.log(socket)
+  console.log("브라우저와 연결됐어요");
+  socket.send("hello!!");
+});
 // socket은 연결된 브라우저 의미
 
 server.listen(3000, handleListen);
