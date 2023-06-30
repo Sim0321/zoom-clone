@@ -18,6 +18,8 @@ const wss = new WebSocket.Server({ server }); //WebSocket 서버와 http서버 �
 wss.on("connection", (socket) => {
   // console.log(socket)
   console.log("브라우저와 연결됐어요");
+  socket.on("close", () => console.log("브라우저로부터 연결이 끊겼어요."));
+
   socket.send("hello!!");
 });
 // socket은 연결된 브라우저 의미

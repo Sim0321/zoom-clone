@@ -7,7 +7,7 @@ socket.addEventListener("open", () => {
 
 socket.addEventListener("message", (message) => {
   console.log("방금 막 이", message, "를 서버로 부터 받아왔어요.");
-  console.log("메세지 내용은", message.data, " 에요.");
+  console.log("새로운 메세지는", message.data, " 에요.");
 });
 
 socket.addEventListener("close", () => {
