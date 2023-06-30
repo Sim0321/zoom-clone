@@ -20,11 +20,24 @@ console.log(sockets);
 
 wss.on("connection", (socket) => {
   sockets.push(socket);
+  socket.nickname = "익명";
   console.log("브라우저와 연결됐어요");
   socket.on("close", () => console.log("브라우저로부터 연결이 끊겼어요."));
-  socket.on("message", (message) => {
-    sockets.forEach((aSocket) => aSocket.send(message.toString("utf8")));
-    console.log(message.toString("utf8"));
+  socket.on("message", (msg) => {
+    const message = JSON.parse(msg);
+    switch (message.type) {
+      case "new_message":
+        sockets.forEach((aSocket) =>
+          aSocket.send(`${socket.nickname}: ${message.payload}`)
+        );
+      case "nickname":
+        socket.nickname = message.payload;
+    }
+    // if (parsed.type === "new_message") {
+    //   sockets.forEach((aSocket) => aSocket.send(parsed.payload));
+    // } else if (parsed.type === "nickname") {
+    //   console.log(parsed.payload);
+    // }
   });
 });
 // socket은 연결된 브라우저 의미
