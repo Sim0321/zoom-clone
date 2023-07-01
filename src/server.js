@@ -22,13 +22,14 @@ io.on("connection", (socket) => {
     console.log(`Socket Event:${event}`);
   });
   socket.on("enter_room", (roomName, done) => {
-    console.log(socket.id);
-    console.log(socket.rooms);
+    // console.log(socket.id);
+    // console.log(socket.rooms); //user id와 socket id는 같다.
     socket.join(roomName);
-    console.log(socket.rooms);
-    setTimeout(() => {
-      done("hello from the back"); // 이 함수는 back에서 돌아가는게 아니다. 만약 back에서 돌아가면 보안 이슈 생김
-    }, 1000);
+    done();
+    // console.log(socket.rooms);
+    // setTimeout(() => {
+    //   done("hello from the back"); // 이 함수는 back에서 돌아가는게 아니다. 만약 back에서 돌아가면 보안 이슈 생김
+    // }, 1000);
   });
 });
 

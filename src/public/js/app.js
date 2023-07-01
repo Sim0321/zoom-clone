@@ -54,10 +54,18 @@ const socket = io();
 
 const welcome = document.getElementById("welcome");
 const form = welcome.querySelector("form");
+const room = document.getElementById("room");
 
-function backendDone(msg) {
+room.hidden = true;
+
+let roomName;
+
+function showRoom() {
   // console.log("마지막 argument는 함수여야해요!");
-  console.log(`The backend says :${msg}`);
+  welcome.hidden = true;
+  room.hidden = false;
+  const h3 = room.querySelector("h3");
+  h3.innerText = `Room ${roomName}`;
 }
 
 function handleRoomSubmit(e) {
@@ -66,11 +74,12 @@ function handleRoomSubmit(e) {
   socket.emit(
     "enter_room",
     input.value,
-    backendDone
+    showRoom
     // 프론트에서 서버로 함수를 보내고 서버에서 다시 보낸다.
     // socket.io는 이벤트를 설정해주고 argument를 ws의 string 방식이 아닌 어떠한 모든 것이든 보낼 수 있을 뿐더러 여러개를 보낼 수 있다.
     // 콜백함수는 서버로부터 함수를 보내고 서버에서 그 함수를 다시 프론트한테 뿌려줄 수 있다.
   );
+  roomName = input.value;
   input.value = "";
 }
 form.addEventListener("submit", handleRoomSubmit);
