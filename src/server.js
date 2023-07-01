@@ -18,11 +18,11 @@ const server = http.createServer(app); //http 서버
 const io = SocketIO(server);
 
 io.on("connection", (socket) => {
-  socket.on("enter_room", (msg, done) => {
-    console.log(msg);
+  socket.on("enter_room", (roomName, done) => {
+    console.log(roomName);
     setTimeout(() => {
-      done();
-    }, 5000);
+      done("hello from the back"); // 이 함수는 back에서 돌아가는게 아니다. 만약 back에서 돌아가면 보안 이슈 생김
+    }, 1000);
   });
 });
 
