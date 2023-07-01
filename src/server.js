@@ -18,7 +18,12 @@ const server = http.createServer(app); //http 서버
 const io = SocketIO(server);
 
 io.on("connection", (socket) => {
-  console.log(socket);
+  socket.on("enter_room", (msg, done) => {
+    console.log(msg);
+    setTimeout(() => {
+      done();
+    }, 5000);
+  });
 });
 
 // WebSocket
