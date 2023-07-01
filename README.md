@@ -15,3 +15,5 @@ Zoom Clone using NodeJS, WebRTC and Websockets
   - public 폴더를 유저에게 공개
 
 - ws : node js에서 WebSocket protocol을 실행하는 패키지
+- WebSocket : 브라우저 내장API
+- socket IO : 실시간,양방향,event 기반의 통신을 가능하게 해주는 라이브러리

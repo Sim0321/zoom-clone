@@ -1,5 +1,6 @@
 import http from "http";
-import WebSocket from "ws";
+// import WebSocket from "ws";
+import SocketIO from "socket.io";
 import express from "express";
 
 const app = express();
@@ -13,33 +14,37 @@ app.get("/*", (req, res) => res.redirect("/"));
 const handleListen = () => console.log(`Listening on http://localhost:3000`);
 // app.listen(3000, handleListen);
 const server = http.createServer(app); //http 서버
-const wss = new WebSocket.Server({ server }); //WebSocket 서버와 http서버 동시에
+// const wss = new WebSocket.Server({ server }); //WebSocket 서버와 http서버 동시에
+const io = SocketIO(server);
 
-const sockets = [];
-console.log(sockets);
-
-wss.on("connection", (socket) => {
-  sockets.push(socket);
-  socket.nickname = "익명";
-  console.log("브라우저와 연결됐어요");
-  socket.on("close", () => console.log("브라우저로부터 연결이 끊겼어요."));
-  socket.on("message", (msg) => {
-    const message = JSON.parse(msg);
-    switch (message.type) {
-      case "new_message":
-        sockets.forEach((aSocket) =>
-          aSocket.send(`${socket.nickname}: ${message.payload}`)
-        );
-      case "nickname":
-        socket.nickname = message.payload;
-    }
-    // if (parsed.type === "new_message") {
-    //   sockets.forEach((aSocket) => aSocket.send(parsed.payload));
-    // } else if (parsed.type === "nickname") {
-    //   console.log(parsed.payload);
-    // }
-  });
+io.on("connection", (socket) => {
+  console.log(socket);
 });
+
+// WebSocket
+// const sockets = [];
+// wss.on("connection", (socket) => {
+//   sockets.push(socket);
+//   socket.nickname = "익명";
+//   console.log("브라우저와 연결됐어요");
+//   socket.on("close", () => console.log("브라우저로부터 연결이 끊겼어요."));
+//   socket.on("message", (msg) => {
+//     const message = JSON.parse(msg);
+//     switch (message.type) {
+//       case "new_message":
+//         sockets.forEach((aSocket) =>
+//           aSocket.send(`${socket.nickname}: ${message.payload}`)
+//         );
+//       case "nickname":
+//         socket.nickname = message.payload;
+//     }
+//     // if (parsed.type === "new_message") {
+//     //   sockets.forEach((aSocket) => aSocket.send(parsed.payload));
+//     // } else if (parsed.type === "nickname") {
+//     //   console.log(parsed.payload);
+//     // }
+//   });
+// });
 // socket은 연결된 브라우저 의미
 
 server.listen(3000, handleListen);
